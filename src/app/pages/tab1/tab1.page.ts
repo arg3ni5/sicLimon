@@ -11,8 +11,16 @@ export class Tab1Page {
   posts: Post[] = [];
 
   constructor(private postService: PostsService) {
-    postService.getPosts().subscribe(resp => {
+    this.loadData();
+  }
+  loadData(event?) {
+    this.postService.getPosts().subscribe(resp => {
+      console.log(resp);      
       this.posts.push(...resp.posts);
+
+      if (event) {
+        event.target.complete();
+      }
     });
   }
 

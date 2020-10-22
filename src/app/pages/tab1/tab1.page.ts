@@ -8,9 +8,11 @@ import { PostsService } from '../../services/posts.service';
 })
 export class Tab1Page {
 
+  posts: Post[] = [];
+
   constructor(private postService: PostsService) {
     postService.getPosts().subscribe(resp => {
-      console.log(resp)
+      this.posts.push(...resp.posts);
     });
   }
 

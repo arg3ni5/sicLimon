@@ -9,7 +9,9 @@ import { PostsService } from '../../services/posts.service';
 export class Tab1Page {
 
   constructor(private postService: PostsService) {
-    postService.getPosts().subscribe(posts => { console.log(posts) });
+    postService.getPosts().subscribe(resp => {
+      console.log(resp)
+    });
   }
 
 }

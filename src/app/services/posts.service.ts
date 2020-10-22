@@ -15,6 +15,6 @@ export class PostsService {
 
   getPosts() {
     this.pagePosts++;
-    return this.http.get(`${URL}/posts/?page=${this.pagePosts}`)
+    return this.http.get<ResponsePost>(`${URL}/posts/?page=${this.pagePosts}`)
   }
 }

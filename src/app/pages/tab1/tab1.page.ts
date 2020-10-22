@@ -9,17 +9,27 @@ import { PostsService } from '../../services/posts.service';
 export class Tab1Page {
 
   posts: Post[] = [];
+  disabled: boolean = false;
 
   constructor(private postService: PostsService) {
     this.loadData();
   }
-  loadData(event?) {
-    this.postService.getPosts().subscribe(resp => {
-      console.log(resp);      
+
+  doRefresh(event?: any) {
+    this.loadData(event, true);
+    this.posts = [];
+    this.disabled = false;
+  }
+  loadData(event?: any, pull: boolean = false) {
+    this.postService.getPosts(pull).subscribe(resp => {
       this.posts.push(...resp.posts);
 
       if (event) {
         event.target.complete();
+
+        if (resp.posts.length === 0) {
+          this.disabled = true;
+        }
       }
     });
   }

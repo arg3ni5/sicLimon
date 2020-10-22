@@ -61,6 +61,11 @@ export class LoginPage implements OnInit {
     email: 'fb.argenis@gmail.com',
     password: '0123'
   }
+  registerUser: Usuario = {
+    email: 'test123@gmail.com',
+    nombre: 'test',
+    password: '123456'
+  }
 
   ngOnInit() {
   }
@@ -75,10 +80,7 @@ export class LoginPage implements OnInit {
   }
 
   async login(fLogin: NgForm) {
-    if (fLogin.invalid) {
-      return;
-    }
-    console.log(this.loginUser);
+    if (fLogin.invalid) {return;}
     const valid = await this.usersService.login(this.loginUser.email, this.loginUser.password);
     if (valid) {
       // navegar
@@ -89,8 +91,16 @@ export class LoginPage implements OnInit {
     }
   }
 
-  singUp(fSingUp: NgForm) {
-    console.log(fSingUp.valid);
+  async singUp(fSingUp: NgForm) {
+    if (fSingUp.invalid) {return;}
+    const valid = await this.usersService.singUp(this.registerUser);
+    if (valid) {
+      // navegar
+      this.navCtrl.navigateRoot('main/tabs/tab1', { animated: true });
+    } else {
+      // mostrar alerta
+      this.uiServicesService.presentAlert('Correo ya registrado');
+    }
   }
 
   gotoSlide(slide: number) {

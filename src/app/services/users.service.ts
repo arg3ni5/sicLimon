@@ -15,7 +15,7 @@ export class UsersService {
   login(email: string, password: string) {
     const data = { email, password };
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.http.post(`${URL}/user/login`, data).subscribe(resp => {
         if (resp['ok']) {
           this.saveToken(resp['token']);
@@ -27,7 +27,20 @@ export class UsersService {
         }
       })
     })
-
+  }
+  singUp(user: Usuario){
+    return new Promise((resolve) => {
+      this.http.post(`${URL}/user/create`, user).subscribe(resp => {
+        if (resp['ok']) {
+          this.saveToken(resp['token']);
+          resolve(true);
+        } else {
+          this.token = null;
+          this.storage.clear();
+          resolve(false);
+        }
+      })
+    })
   }
 
   async saveToken(token: string) {

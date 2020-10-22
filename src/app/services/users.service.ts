@@ -14,8 +14,24 @@ export class UsersService {
 
   login(email: string, password: string) {
     const data = { email, password };
-    this.http.post(`${URL}/user/login`, data).subscribe(resp => {
-      console.log(resp);
+
+    return new Promise((resolve, reject) => {
+      this.http.post(`${URL}/user/login`, data).subscribe(resp => {
+        if (resp['ok']) {
+          this.saveToken(resp['token']);
+          resolve(true);
+        } else {
+          this.token = null;
+          this.storage.clear();
+          reject(false);
+        }
+      })
     })
+
+  }
+
+  async saveToken(token: string) {
+    this.token = token;
+    await this.storage.set('token', token);
   }
 }

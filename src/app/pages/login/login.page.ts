@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { IonSlides } from '@ionic/angular';
+import { IonSlides, NavController } from '@ionic/angular';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -51,11 +51,11 @@ export class LoginPage implements OnInit {
     slidesPerView: 3.5
   }
 
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService, private navCtrl: NavController) { }
 
   loginUser = {
     email: 'fb.argenis@gmail.com',
-    password: '01230'
+    password: '0123'
   }
 
   ngOnInit() {
@@ -70,12 +70,18 @@ export class LoginPage implements OnInit {
     avatar.selected = true;
   }
 
-  login(fLogin: NgForm) {
+  async login(fLogin: NgForm) {
     if (fLogin.invalid) {
       return;
     }
     console.log(this.loginUser);
-    this.usersService.login(this.loginUser.email, this.loginUser.password);
+    const valid = await this.usersService.login(this.loginUser.email, this.loginUser.password);
+    if (valid) {
+      // navegar
+      this.navCtrl.navigateRoot('main/tabs/tab1', { animated: true });
+    } else {
+      // mostrar alerta
+    }
   }
 
   singUp(fSingUp: NgForm) {

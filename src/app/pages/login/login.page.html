@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-slides class="mainSlide">
+  <ion-slides class="mainSlide" #slidePrincipal>
     <ion-slide>
 
       <form (ngSubmit)="login(fLogin)" #fLogin="ngForm">
@@ -113,13 +113,13 @@
     <ion-row>
 
       <ion-col>
-        <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary">
+        <ion-button (click)="gotoSlide(0)" shape="round" expand="full" size="small" fill="outline" color="tertiary">
           Ingresar
         </ion-button>
       </ion-col>
 
       <ion-col>
-        <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary">
+        <ion-button (click)="gotoSlide(1)" shape="round" expand="full" size="small" fill="outline" color="tertiary">
           Registrarme
         </ion-button>
       </ion-col>

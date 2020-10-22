@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { IonSlides } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -7,6 +8,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+
+  @ViewChild('slidePrincipal') slides: IonSlides;
 
   avatars = [
     {
@@ -52,6 +55,10 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
+  ionViewDidEnter() {
+    this.slides.lockSwipes(true);
+  }
+
   selectAvatar(avatar: any) {
     this.avatars.forEach(av => av.selected = false);
     avatar.selected = true;
@@ -65,4 +72,9 @@ export class LoginPage implements OnInit {
     console.log(fSingUp.valid);
   }
 
+  gotoSlide(slide: number) {
+    this.slides.lockSwipes(false);
+    this.slides.slideTo(slide);    
+    this.slides.lockSwipes(true);
+  }
 }

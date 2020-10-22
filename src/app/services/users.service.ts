@@ -23,7 +23,7 @@ export class UsersService {
         } else {
           this.token = null;
           this.storage.clear();
-          reject(false);
+          resolve(false);
         }
       })
     })

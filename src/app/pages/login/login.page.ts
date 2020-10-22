@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonSlides, NavController } from '@ionic/angular';
 import { UsersService } from 'src/app/services/users.service';
+import { UiServicesService } from '../../services/ui-services.service';
 
 @Component({
   selector: 'app-login',
@@ -51,7 +52,10 @@ export class LoginPage implements OnInit {
     slidesPerView: 3.5
   }
 
-  constructor(private usersService: UsersService, private navCtrl: NavController) { }
+  constructor(
+    private usersService: UsersService,
+    private navCtrl: NavController,
+    private uiServicesService: UiServicesService) { }
 
   loginUser = {
     email: 'fb.argenis@gmail.com',
@@ -81,6 +85,7 @@ export class LoginPage implements OnInit {
       this.navCtrl.navigateRoot('main/tabs/tab1', { animated: true });
     } else {
       // mostrar alerta
+      this.uiServicesService.presentAlert('Usuario y/o contraseña no son correctos.');
     }
   }
 

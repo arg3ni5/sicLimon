@@ -13,45 +13,6 @@ export class LoginPage implements OnInit {
 
   @ViewChild('slidePrincipal') slides: IonSlides;
 
-  avatars = [
-    {
-      img: 'av-1.png',
-      selected: true
-    },
-    {
-      img: 'av-2.png',
-      selected: false
-    },
-    {
-      img: 'av-3.png',
-      selected: false
-    },
-    {
-      img: 'av-4.png',
-      selected: false
-    },
-    {
-      img: 'av-5.png',
-      selected: false
-    },
-    {
-      img: 'av-6.png',
-      selected: false
-    },
-    {
-      img: 'av-7.png',
-      selected: false
-    },
-    {
-      img: 'av-8.png',
-      selected: false
-    },
-  ];
-
-  avatarSlide = {
-    slidesPerView: 3.5
-  }
-
   constructor(
     private usersService: UsersService,
     private navCtrl: NavController,
@@ -72,11 +33,6 @@ export class LoginPage implements OnInit {
 
   ionViewDidEnter() {
     this.slides.lockSwipes(true);
-  }
-
-  selectAvatar(avatar: any) {
-    this.avatars.forEach(av => av.selected = false);
-    avatar.selected = true;
   }
 
   async login(fLogin: NgForm) {

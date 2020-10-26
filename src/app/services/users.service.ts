@@ -33,6 +33,7 @@ export class UsersService {
       })
     })
   }
+
   singUp(user: Usuario) {
     return new Promise((resolve) => {
       this.http.post(`${URL}/user/create`, user).subscribe(resp => {
@@ -66,7 +67,7 @@ export class UsersService {
     }
 
     return new Promise<boolean>((resolve) => {
-      
+
       const headers = new HttpHeaders({
         'x-token': this.token
       });
@@ -77,10 +78,17 @@ export class UsersService {
           resolve(true);
         }
         else {
-          this.navCtrl.navigateRoot('login');          
+          this.navCtrl.navigateRoot('login');
           resolve(false);
         }
       });
     })
+  }
+
+  getUser() {
+    if (!this.usuario._id) {
+      this.validateToken();
+    }
+    return { ... this.usuario };
   }
 }

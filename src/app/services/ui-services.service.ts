@@ -23,6 +23,7 @@ export class UiServicesService {
   async presentToast(message: string) {
     const toast = await this.toastCtrl.create({
       message,
+      position: 'top',
       duration: 1500
     });
     toast.present();

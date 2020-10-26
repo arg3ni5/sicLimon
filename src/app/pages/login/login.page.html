@@ -54,7 +54,7 @@
             <h3>Seleccione Avatar</h3>
           </ion-col>
         </ion-row>
-        <app-avatar-selector (selected)="registerUser.avatar=$event"></app-avatar-selector>
+        <app-avatar-selector (avatarSelected)="registerUser.avatar=$event"></app-avatar-selector>
 
         <form (ngSubmit)="singUp(fLogin)" #fSingUp="ngForm">
           <ion-row>

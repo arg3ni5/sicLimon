@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { UsersService } from './users.service';
 
 const URL = environment.url;
 
@@ -10,8 +11,9 @@ const URL = environment.url;
 export class PostsService {
 
   pagePosts: number = 0;
+  ;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private usersService: UsersService) { }
 
   getPosts(pull: boolean = false) {
     if (pull) {
@@ -19,5 +21,26 @@ export class PostsService {
     }
     this.pagePosts++;
     return this.http.get<ResponsePost>(`${URL}/posts/?page=${this.pagePosts}`)
+  }
+
+  createPost(post) {
+    return new Promise((resolve) => {
+      const headers = new HttpHeaders({
+        'x-token': this.usersService.token
+      });
+
+      this.http.post(`${URL}/posts`, post, { headers })
+        .subscribe(resp => {
+          console.log(resp);
+
+          // if (resp['ok']) {
+          //   resolve(true);
+          // }
+          // else {
+          //   resolve(false);
+          // }
+
+        });
+    })
   }
 }

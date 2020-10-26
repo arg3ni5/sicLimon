@@ -91,4 +91,26 @@ export class UsersService {
     }
     return { ... this.usuario };
   }
+
+  updateUser(usuario: Usuario) {
+    return new Promise((resolve) => {
+      const headers = new HttpHeaders({
+        'x-token': this.token
+      });
+  
+      this.http.post(`${URL}/user/update`, usuario, { headers })
+      .subscribe(resp => {
+
+        if (resp['ok']) {
+          this.saveToken(resp['token']);
+          resolve(true);
+        }
+        else {
+          this.navCtrl.navigateRoot('login');
+          resolve(false);
+        }
+        
+      });
+    })
+  }
 }

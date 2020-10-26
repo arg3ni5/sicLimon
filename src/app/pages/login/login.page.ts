@@ -16,7 +16,7 @@ export class LoginPage implements OnInit {
   constructor(
     private usersService: UsersService,
     private navCtrl: NavController,
-    private uiServicesService: UiServicesService) { }
+    private uiServices: UiServicesService) { }
 
   loginUser = {
     email: 'fb.argenis@gmail.com',
@@ -43,7 +43,7 @@ export class LoginPage implements OnInit {
       this.navCtrl.navigateRoot('main/tabs/tab1', { animated: true });
     } else {
       // mostrar alerta
-      this.uiServicesService.presentAlert('Usuario y/o contraseña no son correctos.');
+      this.uiServices.presentAlert('Usuario y/o contraseña no son correctos.');
     }
   }
 
@@ -55,7 +55,7 @@ export class LoginPage implements OnInit {
       this.navCtrl.navigateRoot('main/tabs/tab1', { animated: true });
     } else {
       // mostrar alerta
-      this.uiServicesService.presentAlert('Correo ya registrado');
+      this.uiServices.presentAlert('Correo ya registrado');
     }
   }
 

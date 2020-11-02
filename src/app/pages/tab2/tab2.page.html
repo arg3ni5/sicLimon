@@ -5,7 +5,8 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button (click)="crearPost()" [disabled]="post.mensaje.length<1" color="primary">
+      <ion-button (click)="crearPost()"
+      [disabled]="post.mensaje.length<1 || loadingGeo" color="primary">
         Compartir
       </ion-button>
     </ion-buttons>
@@ -25,8 +26,8 @@
     <ion-list>
       <ion-item>
         <ion-label>Posición actual</ion-label>
-        <ion-spinner name="lines-small"></ion-spinner>
-        <ion-toggle slot="end"></ion-toggle>
+        <ion-spinner name="lines-small" *ngIf="loadingGeo"></ion-spinner>
+        <ion-toggle slot="end" [(ngModel)]="post.position" (ionChange)="getGeo()"></ion-toggle>
       </ion-item>
     </ion-list>
 

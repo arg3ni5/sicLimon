@@ -3,6 +3,7 @@ import { PostsService } from '../../services/posts.service';
 import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 declare var window: any;
 
@@ -25,7 +26,8 @@ export class Tab2Page {
   constructor(private postsService: PostsService,
     private navCtrl: NavController,
     private geolocation: Geolocation,
-    private camera: Camera) { }
+    private camera: Camera,
+    private imagePicker: ImagePicker) { }
 
   async crearPost() {
     const created = await this.postsService.createPost(this.post);
@@ -81,8 +83,19 @@ export class Tab2Page {
     this.camera.getPicture(options).then((imageData) => {
       const img = window.Ionic.WebView.convertFileSrc(imageData);
       this.tempImages.push(img);
-    }, (err) => {
-      console.log(err);
-    });
+    }, (err) => { console.log(err); });
+  }
+
+  picker() {
+    const options = {
+      maximumImagesCount: 10,
+      width: 800
+    }
+    this.imagePicker.getPictures(options).then((results) => {
+      for (var i = 0; i < results.length; i++) {
+        const img = window.Ionic.WebView.convertFileSrc(results[i]);
+        this.tempImages.push(img);
+      }
+    }, (err) => { console.log(err); });
   }
 }

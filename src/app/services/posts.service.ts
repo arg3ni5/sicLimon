@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { UsersService } from './users.service';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { File } from '@ionic-native/file';
 
 const URL = environment.url;
 
@@ -13,7 +15,9 @@ export class PostsService {
   pagePosts: number = 0;
   newPost = new EventEmitter<Post>();
 
-  constructor(private http: HttpClient, private usersService: UsersService) { }
+  constructor(private http: HttpClient,
+    private usersService: UsersService,
+    private fileTransfer: FileTransfer) { }
 
   getPosts(pull: boolean = false) {
     if (pull) {
@@ -33,7 +37,7 @@ export class PostsService {
         .subscribe(resp => {
           console.log(resp);
 
-          if (resp['ok']) {            
+          if (resp['ok']) {
             this.newPost.emit(resp['post']);
             resolve(true);
           }
@@ -42,5 +46,18 @@ export class PostsService {
           }
         });
     })
+  }
+  uploadImage(img: string) {
+    const options: FileUploadOptions = {
+      fileKey: 'image',
+      headers: { 'x-token': this.usersService.token }
+    };
+
+    const fileTransfer: FileTransferObject = this.fileTransfer.create();
+    fileTransfer.upload(img, `${URL}/posts/upload`, options)
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => console.log('error en carga de imagen: ',err));
   }
 }

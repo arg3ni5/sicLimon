@@ -50,7 +50,7 @@ export class Tab2Page {
       console.log('Error getting location', error);
     });
   }
-  
+
   camara() {
     const options: CameraOptions = {
       quality: 100,
@@ -61,13 +61,28 @@ export class Tab2Page {
       sourceType: this.camera.PictureSourceType.CAMERA
     }
 
+    this.processImage(options);
+  }
+
+  libreria() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    }
+
+    this.processImage(options);
+  }
+
+  processImage(options: CameraOptions) {
     this.camera.getPicture(options).then((imageData) => {
       const img = window.Ionic.WebView.convertFileSrc(imageData);
-      console.log(img);
-      this.tempImages.push(img);      
+      this.tempImages.push(img);
     }, (err) => {
       console.log(err);
-      
     });
   }
 }

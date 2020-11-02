@@ -14,17 +14,16 @@
 
   
   <!-- imgs -->
-  <!-- <ion-slides>
-    <ion-slide class="image-slide" [style]="img1 | domSanitizer">
-    </ion-slide>
-    <ion-slide class="image-slide" [style]="img2 | domSanitizer">
-    </ion-slide>
-    <ion-slide class="image-slide" [style]="img3 | domSanitizer">
-    </ion-slide>
-  </ion-slides> -->
+  <ion-slides pager="true" *ngIf="post.imgs.length>1">
+    <ion-slide class="image-slide" [style]="(img|image:post.usuario._id) | domSanitizer" *ngFor="let img of post.imgs"></ion-slide>
+  </ion-slides>
+
+  <ion-slides *ngIf="post.imgs.length===1" [options]="slideSoloOpts">
+    <ion-slide class="image-slide" [style]="(post.imgs[0]|image:post.usuario._id) | domSanitizer"></ion-slide>
+  </ion-slides>
 
   <!-- mapa -->
-  <app-mapa [coords]="post.coords"></app-mapa>
+  <app-mapa [coords]="post.coords" *ngIf="post.coords"></app-mapa>
 
   <ion-item lines="none">
     <!-- <ion-icon slot="start" name="heart-outline"></ion-icon> -->

@@ -8,9 +8,11 @@ import { Component, Input, OnInit } from '@angular/core';
 export class PostComponent implements OnInit {
 
   @Input() post: Post = {};
-  img1 = "/assets/perro-1.jpg";
-  img2 = "/assets/perro-2.jpg";
-  img3 = "/assets/perro-3.jpg";
+
+  slideSoloOpts = {
+    allowSlideNext: false,
+    allowSlidePrev: false
+  }
 
   constructor() { }
 

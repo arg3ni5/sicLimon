@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UsersService } from 'src/app/services/users.service';
 import { NgForm } from '@angular/forms';
 import { UiServicesService } from '../../services/ui-services.service';
+import { PostsService } from 'src/app/services/posts.service';
 
 @Component({
   selector: 'app-tab3',
@@ -13,10 +14,13 @@ export class Tab3Page {
 
   constructor(
     private usersService: UsersService,
-    private uiServices: UiServicesService
+    private uiServices: UiServicesService,
+    private postsService: PostsService
   ) { }
 
   logout() {
+    this.postsService.pagePosts = 0;
+    this.usersService.logout();
   }
 
   async updateUser(fUpdate: NgForm) {

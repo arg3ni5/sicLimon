@@ -21,37 +21,41 @@ export class UsersService {
     const data = { email, password };
 
     return new Promise((resolve) => {
-      this.http.post(`${URL}/user/login`, data).subscribe(resp => {
-        if (resp['ok']) {
-          this.saveToken(resp['token']);
-          resolve(true);
-        } else {
-          this.token = null;
-          this.storage.clear();
-          resolve(false);
-        }
-      })
-    })
+      this.http.post(`${URL}/user/login`, data)
+        .subscribe(async resp => {
+          if (resp['ok']) {
+            await this.saveToken(resp['token']);
+            resolve(true);
+          } else {
+            this.token = null;
+            this.storage.clear();
+            resolve(false);
+          }
+        });
+    });
   }
 
   singUp(user: Usuario) {
     return new Promise((resolve) => {
-      this.http.post(`${URL}/user/create`, user).subscribe(resp => {
-        if (resp['ok']) {
-          this.saveToken(resp['token']);
-          resolve(true);
-        } else {
-          this.token = null;
-          this.storage.clear();
-          resolve(false);
-        }
-      })
-    })
+      this.http.post(`${URL}/user/create`, user)
+        .subscribe(async resp => {
+          if (resp['ok']) {
+            await this.saveToken(resp['token']);
+            resolve(true);
+          } else {
+            this.token = null;
+            this.storage.clear();
+            resolve(false);
+          }
+        });
+    });
   }
 
   async saveToken(token: string) {
     this.token = token;
     await this.storage.set('token', token);
+
+    this.validateToken();
   }
 
   async loadToken() {
@@ -97,20 +101,27 @@ export class UsersService {
       const headers = new HttpHeaders({
         'x-token': this.token
       });
-  
-      this.http.post(`${URL}/user/update`, usuario, { headers })
-      .subscribe(resp => {
 
-        if (resp['ok']) {
-          this.saveToken(resp['token']);
-          resolve(true);
-        }
-        else {
-          this.navCtrl.navigateRoot('login');
-          resolve(false);
-        }
-        
-      });
+      this.http.post(`${URL}/user/update`, usuario, { headers })
+        .subscribe(resp => {
+
+          if (resp['ok']) {
+            this.saveToken(resp['token']);
+            resolve(true);
+          }
+          else {
+            this.navCtrl.navigateRoot('login');
+            resolve(false);
+          }
+
+        });
     })
+  }
+  logout() {
+    this.token = null;
+    this.usuario = null;
+    this.storage.clear();
+
+    this.navCtrl.navigateRoot('/login', { animated: true });
   }
 }

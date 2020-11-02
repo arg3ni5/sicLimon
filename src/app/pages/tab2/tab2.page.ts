@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PostsService } from '../../services/posts.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -16,10 +17,15 @@ export class Tab2Page {
     position: false
   }
 
-  constructor(private postsService : PostsService) { }
+  constructor(private postsService : PostsService, private navCtrl : NavController) { }
 
-  crearPost() {
-    this.postsService.createPost(this.post);
-    console.log(this.post);
+  async crearPost() {
+    const created = await this.postsService.createPost(this.post);
+    this.post = {
+      mensaje: "",
+      coords: null,
+      position: false
+    };
+    this.navCtrl.navigateRoot('main/tabs/tab1');
   }
 }

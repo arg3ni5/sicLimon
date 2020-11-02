@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { UsersService } from './users.service';
 
@@ -11,7 +11,7 @@ const URL = environment.url;
 export class PostsService {
 
   pagePosts: number = 0;
-  ;
+  newPost = new EventEmitter<Post>();
 
   constructor(private http: HttpClient, private usersService: UsersService) { }
 
@@ -33,13 +33,13 @@ export class PostsService {
         .subscribe(resp => {
           console.log(resp);
 
-          // if (resp['ok']) {
-          //   resolve(true);
-          // }
-          // else {
-          //   resolve(false);
-          // }
-
+          if (resp['ok']) {            
+            this.newPost.emit(resp['post']);
+            resolve(true);
+          }
+          else {
+            resolve(false);
+          }
         });
     })
   }

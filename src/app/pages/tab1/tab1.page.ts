@@ -11,9 +11,20 @@ export class Tab1Page {
   posts: Post[] = [];
   disabled: boolean = false;
 
-  constructor(private postService: PostsService) {
+  constructor(private postService: PostsService) { }
+
+  ngOnInit() {
     this.loadData();
+    this.postService.newPost.subscribe((post: Post) => {
+      this.posts.unshift(post);
+    })
   }
+
+  // ionViewWillEnter() {
+  //   this.loadData(undefined, true);
+  //   this.posts = [];
+  //   this.disabled = false;
+  // }
 
   doRefresh(event?: any) {
     this.loadData(event, true);

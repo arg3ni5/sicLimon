@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { PostsService } from '../../services/posts.service';
 import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+
+declare var window: any;
 
 @Component({
   selector: 'app-tab2',
@@ -20,8 +23,9 @@ export class Tab2Page {
   }
 
   constructor(private postsService: PostsService,
-              private navCtrl: NavController,
-              private geolocation: Geolocation) { }
+    private navCtrl: NavController,
+    private geolocation: Geolocation,
+    private camera: Camera) { }
 
   async crearPost() {
     const created = await this.postsService.createPost(this.post);
@@ -40,10 +44,30 @@ export class Tab2Page {
       const coords = `${resp.coords.latitude},${resp.coords.longitude}`;
       console.log(coords);
       this.post.coords = coords;
-      
+
     }).catch((error) => {
       this.loadingGeo = false;
       console.log('Error getting location', error);
-     });
+    });
+  }
+  
+  camara() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      sourceType: this.camera.PictureSourceType.CAMERA
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      const img = window.Ionic.WebView.convertFileSrc(imageData);
+      console.log(img);
+      this.tempImages.push(img);      
+    }, (err) => {
+      console.log(err);
+      
+    });
   }
 }

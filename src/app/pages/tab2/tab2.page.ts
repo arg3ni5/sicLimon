@@ -96,7 +96,7 @@ export class Tab2Page {
     this.imagePicker.getPictures(options).then((results) => {
       for (var i = 0; i < results.length; i++) {
         const img = window.Ionic.WebView.convertFileSrc(results[i]);
-        this.postsService.uploadImage(results)
+        this.postsService.uploadImage(results[i])
         this.tempImages.push(img);
       }
     }, (err) => { console.log(err); });

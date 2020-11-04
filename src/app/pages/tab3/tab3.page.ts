@@ -39,7 +39,5 @@ export class Tab3Page {
 
   ngOnInit() {
     this.usuario = this.usersService.getUser();
-    console.log(this.usuario);
-
   }
 }

@@ -58,6 +58,26 @@ export class PostsService {
       .then(data => {
         console.log(data);
       })
-      .catch(err => console.log('error en carga de imagen: ',err));
+      .catch(err => console.log('error en carga de imagen: ', err));
+  }
+  getImgsTemp() {
+    return new Promise<any[]>((resolve) => {
+      const imgs = [];
+      const headers = new HttpHeaders({ 'x-token': this.usersService.token });
+      this.http.get(`${URL}/posts/temp`, { headers })
+        .subscribe(resp => {          
+          if (resp['ok'] && resp['imgs']) {
+            for (const img of resp['imgs']) {
+              imgs.push(`${URL}/posts/image/temp/${resp['usuario']}/${img}`);
+            }
+            resolve(imgs);
+          }
+        });
+    })
+  }
+  clearTempDir() {
+    const headers = new HttpHeaders({ 'x-token': this.usersService.token });
+    this.http.delete(`${URL}/posts/temp`, { headers })
+      .subscribe(resp => console.log(resp));
   }
 }

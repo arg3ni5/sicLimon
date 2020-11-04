@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { UiServicesService } from '../../services/ui-services.service';
 
 declare var window: any;
 
@@ -23,11 +24,19 @@ export class Tab2Page {
     position: false
   }
 
-  constructor(private postsService: PostsService,
+  constructor(
+    private postsService: PostsService,
+    private uiServices: UiServicesService,
     private navCtrl: NavController,
     private geolocation: Geolocation,
     private camera: Camera,
     private imagePicker: ImagePicker) { }
+
+  async ionViewWillEnter() {
+    this.postsService.getImgsTemp().then((imgs) => {
+      this.tempImages = imgs;
+    });
+  }
 
   async crearPost() {
     const created = await this.postsService.createPost(this.post);
@@ -40,18 +49,20 @@ export class Tab2Page {
     this.navCtrl.navigateRoot('main/tabs/tab1');
   }
   getGeo() {
-    console.log(this.post);
-    this.loadingGeo = true;
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.loadingGeo = false;
-      const coords = `${resp.coords.latitude},${resp.coords.longitude}`;
-      console.log(coords);
-      this.post.coords = coords;
-
-    }).catch((error) => {
-      this.loadingGeo = false;
-      console.log('Error getting location', error);
-    });
+    if (this.post.position === true) {
+      this.loadingGeo = true;
+      this.geolocation.getCurrentPosition().then((resp) => {
+        this.loadingGeo = false;
+        const coords = `${resp.coords.latitude},${resp.coords.longitude}`;
+        this.post.coords = coords;
+        this.uiServices.presentToast('Coordenadas Localizadas');
+      }).catch((error) => {
+        this.loadingGeo = false;
+        this.post.position = false;
+        console.log('Error getting location', error);
+        this.uiServices.presentToast('Error obteniendo localización');
+      });
+    }
   }
 
   camara() {

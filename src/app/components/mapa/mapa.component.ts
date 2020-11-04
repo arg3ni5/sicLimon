@@ -25,7 +25,8 @@ export class MapaComponent implements OnInit {
         container: this.mapa.nativeElement,
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [lng, lat],
-        zoom: 15
+        zoom: 15,
+        interactive: false
       });
       const marker = new mapboxgl.Marker().setLngLat({ lng, lat }).addTo(map);
     }

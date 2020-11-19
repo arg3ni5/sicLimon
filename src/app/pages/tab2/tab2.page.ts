@@ -5,6 +5,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { UiServicesService } from '../../services/ui-services.service';
+import { CategoriesService } from '../../services/categories.service';
 
 declare var window: any;
 
@@ -14,25 +15,33 @@ declare var window: any;
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-
+  category: any = {parent:{}};
   tempImages: string[] = [];
   loadingGeo: boolean = false;
 
   post = {
     mensaje: "",
     coords: null,
-    position: false
+    position: false,
+    category: null
   }
 
   constructor(
     private postsService: PostsService,
+    private categoriesService: CategoriesService,
     private uiServices: UiServicesService,
     private navCtrl: NavController,
     private geolocation: Geolocation,
     private camera: Camera,
     private imagePicker: ImagePicker) { }
 
+  async ngOnInit() {
+    this.category = await this.categoriesService.getCategory();
+  }
+
   async ionViewWillEnter() {
+    this.category = await this.categoriesService.getCategory();
+    this.post['category'] = this.category['_id'];
     this.postsService.getImgsTemp().then((imgs) => {
       this.tempImages = imgs;
     });
@@ -43,11 +52,18 @@ export class Tab2Page {
     this.post = {
       mensaje: "",
       coords: null,
-      position: false
+      position: false,
+      category: null
     };
-    this.tempImages = [];
+    this.tempImages = [];    
+    this.categoriesService.clearCategory();
     this.navCtrl.navigateRoot('main/tabs/tab1');
   }
+  cancel() {
+    this.categoriesService.clearCategory();
+    this.navCtrl.navigateRoot('main/tabs/tab2/categories', { animated: true });
+  }
+
   getGeo() {
     if (this.post.position === true) {
       this.loadingGeo = true;

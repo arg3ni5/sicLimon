@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CategoryGuard } from 'src/app/guards/category.guard';
 import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
@@ -9,11 +10,21 @@ const routes: Routes = [
     children: [
       {
         path: 'tab1',
-        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)
-      },
+        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule),
+        canLoad: [CategoryGuard]
+      },      
       {
         path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+          },
+          {
+            path: 'categories',
+            loadChildren: () => import('../categories/categories.module').then(m => m.CategoriesPageModule)
+          }
+        ]
       },
       {
         path: 'tab3',
@@ -37,4 +48,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule { }

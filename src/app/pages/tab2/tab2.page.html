@@ -28,7 +28,12 @@
     </ion-item>
     
     <ion-item>
-      <ion-label position="floating">Mensaje</ion-label>
+      <ion-label position="floating">Descripcion</ion-label>
+      <ion-textarea [(ngModel)]="post.mensaje"></ion-textarea>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating">Direccion del Reporte (opcional)</ion-label>
       <ion-textarea [(ngModel)]="post.mensaje"></ion-textarea>
     </ion-item>
 
@@ -72,9 +77,5 @@
       </ion-card>
     </ion-col>
   </ion-row>
-
-
-  {{post.category}}
-
 
 </ion-content>

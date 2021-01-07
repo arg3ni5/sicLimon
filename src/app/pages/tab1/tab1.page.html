@@ -1,3 +1,4 @@
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -5,12 +6,21 @@
     </ion-buttons>
 
     <ion-title>
-      
+
     </ion-title>
   </ion-toolbar>
+  
+
+  
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true"> 
+
+  <ion-button (click)="onClick()" expand="block" 
+  shape="round" *ngFor="let estado of estados">
+    {{estado.name}}
+  </ion-button>
+
   <!-- refresher -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
     <ion-refresher-content></ion-refresher-content>

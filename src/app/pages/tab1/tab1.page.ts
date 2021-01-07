@@ -9,6 +9,13 @@ import { PostsService } from '../../services/posts.service';
 export class Tab1Page {
 
   posts: Post[] = [];
+  estados = [
+    { id: 'P', name: 'Procesando' },
+    { id: 'A', name: 'Asignado' },
+    { id: 'C', name: 'Cerrado' },
+    { id: 'R', name: 'Resuelto' },
+  ];
+
   disabled: boolean = false;
 
   constructor(private postService: PostsService) { }

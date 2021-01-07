@@ -16,6 +16,10 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: 'main/tabs/tab1'
+  },
+  {
+    path: 'states',
+    loadChildren: () => import('./pages/states/states.module').then( m => m.StatesPageModule)
   }
 ];
 @NgModule({

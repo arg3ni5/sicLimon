@@ -25,8 +25,8 @@ const routes: Routes = [
           },
           {
             path: '',
-            redirectTo: 'main/tabs/tab2/categories',
-            pathMatch: 'full',
+            redirectTo: '/tabs/tab2/categories',
+            pathMatch: 'full'
           }
         ]
       },
@@ -36,7 +36,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'tabs/tab1',
+        redirectTo: '/tabs/tab1',
         pathMatch: 'full'
       }
     ]

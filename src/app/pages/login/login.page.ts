@@ -19,13 +19,13 @@ export class LoginPage implements OnInit {
     private uiServices: UiServicesService) { }
 
   loginUser = {
-    email: 'fb.argenis@gmail.com',
-    password: '0123'
+    email: '',
+    password: ''
   }
   registerUser: Usuario = {
-    email: 'test123@gmail.com',
-    nombre: 'test',
-    password: '123456'
+    email: '',
+    nombre: '',
+    password: ''
   }
 
   ngOnInit() {

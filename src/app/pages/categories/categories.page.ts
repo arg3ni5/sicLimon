@@ -57,6 +57,6 @@ export class CategoriesPage implements OnInit {
     if (category) {
       this.categoriesService.setCategory(category._id);
     }
-    this.navCtrl.navigateRoot('main/tabs/tab2', { animated: true });
+    this.navCtrl.navigateRoot('tabs/tab2/report', { animated: true });
   }
 }

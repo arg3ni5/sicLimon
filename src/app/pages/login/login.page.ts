@@ -40,7 +40,7 @@ export class LoginPage implements OnInit {
     const valid = await this.usersService.login(this.loginUser.email, this.loginUser.password);
     if (valid) {
       // navegar
-      this.navCtrl.navigateRoot('main/tabs/tab1', { animated: true });
+      this.navCtrl.navigateRoot('tabs/tab1', { animated: true });
     } else {
       // mostrar alerta
       this.uiServices.presentAlert('Usuario y/o contraseña no son correctos.');
@@ -52,7 +52,7 @@ export class LoginPage implements OnInit {
     const valid = await this.usersService.singUp(this.registerUser);
     if (valid) {
       // navegar
-      this.navCtrl.navigateRoot('main/tabs/tab1', { animated: true });
+      this.navCtrl.navigateRoot('tabs/tab1', { animated: true });
     } else {
       // mostrar alerta
       this.uiServices.presentAlert('Correo ya registrado');

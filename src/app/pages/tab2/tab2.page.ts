@@ -57,11 +57,11 @@ export class Tab2Page {
     };
     this.tempImages = [];    
     this.categoriesService.clearCategory();
-    this.navCtrl.navigateRoot('main/tabs/tab1');
+    this.navCtrl.navigateRoot('tabs/tab1');
   }
   cancel() {
     this.categoriesService.clearCategory();
-    this.navCtrl.navigateRoot('main/tabs/tab2/categories', { animated: true });
+    this.navCtrl.navigateRoot('tabs/tab2/categories', { animated: true });
   }
 
   getGeo() {

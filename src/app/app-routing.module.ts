@@ -4,7 +4,7 @@ import { UsuarioGuard } from './guards/usuario.guard';
 
 const routes: Routes = [
   {
-    path: 'main',
+    path: 'tabs',
     loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
     canLoad: [UsuarioGuard]
   },
@@ -13,13 +13,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
   {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'main/tabs/tab1'
-  },
-  {
     path: 'states',
     loadChildren: () => import('./pages/states/states.module').then( m => m.StatesPageModule)
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'tabs/tab1'
   }
 ];
 @NgModule({

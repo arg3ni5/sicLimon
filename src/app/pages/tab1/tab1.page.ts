@@ -10,12 +10,12 @@ import { UiServicesService } from '../../services/ui-services.service';
 export class Tab1Page {
 
   posts: Post[] = [];
-  filtro = {}
+  filtro = { estado: '' }
   estados = [
-    { id: 'ASSIGNED_ST', name: 'Asignado' },
-    { id: 'PENDING_ST', name: 'Procesando' },
-    { id: 'CLOSE_ST', name: 'Cerrado' },
-    { id: 'COMPLETE_ST', name: 'Resuelto' },
+    { id: 'PENDING_ST', name: 'En Proceso', icon: 'code-working-outline'},
+    { id: 'ASSIGNED_ST', name: 'Asignado', icon: 'contract-outline'},
+    { id: 'COMPLETE_ST', name: 'Resuelto', icon: 'checkmark-outline'},
+    { id: 'CLOSE_ST', name: 'Cerrado', icon: 'close-outline'}
   ];
 
   disabled: boolean = false;

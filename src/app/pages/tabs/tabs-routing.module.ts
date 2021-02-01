@@ -17,6 +17,8 @@ const routes: Routes = [
         children: [
           {
             path: 'report',
+            canLoad: [CategoryGuard],
+            canActivate: [CategoryGuard],
             loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
           },
           {

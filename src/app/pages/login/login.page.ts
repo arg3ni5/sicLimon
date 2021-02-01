@@ -36,19 +36,23 @@ export class LoginPage implements OnInit {
   }
 
   async login(fLogin: NgForm) {
-    if (fLogin.invalid) {return;}
+    if (fLogin.invalid) { return; }
+
+    this.uiServices.presentLoading();
     const valid = await this.usersService.login(this.loginUser.email, this.loginUser.password);
     if (valid) {
       // navegar
       this.navCtrl.navigateRoot('tabs/tab1', { animated: true });
+      this.uiServices.dismissedLoading();
     } else {
       // mostrar alerta
+      this.uiServices.dismissedLoading();
       this.uiServices.presentAlert('Usuario y/o contraseña no son correctos.');
     }
   }
 
   async singUp(fSingUp: NgForm) {
-    if (fSingUp.invalid) {return;}
+    if (fSingUp.invalid) { return; }
     const valid = await this.usersService.singUp(this.registerUser);
     if (valid) {
       // navegar

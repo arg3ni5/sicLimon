@@ -19,12 +19,26 @@ export class PostsService {
     private usersService: UsersService,
     private fileTransfer: FileTransfer) { }
 
-  getPosts(pull: boolean = false) {
+  getPosts(pull: boolean = false, estado: string = 'ALL') {
     if (pull) {
       this.pagePosts = 0;
     }
     this.pagePosts++;
-    return this.http.get<ResponsePost>(`${URL}/posts/?page=${this.pagePosts}`)
+    const headers = new HttpHeaders({
+      'x-token': this.usersService.token
+    });
+    if (estado !== 'ALL') {
+      return this.http.get<ResponsePost>(`${URL}/posts/user?page=${this.pagePosts}&state=${estado}`, { headers })
+    } else {
+      return this.http.get<ResponsePost>(`${URL}/posts/user?page=${this.pagePosts}`, { headers })
+    }
+  }
+  
+  getCountCategories() {
+    const headers = new HttpHeaders({
+      'x-token': this.usersService.token
+    });
+    return this.http.get<ResponsePost>(`${URL}/posts/user/count`, { headers });
   }
 
   createPost(post) {
@@ -65,7 +79,7 @@ export class PostsService {
       const imgs = [];
       const headers = new HttpHeaders({ 'x-token': this.usersService.token });
       this.http.get(`${URL}/posts/temp`, { headers })
-        .subscribe(resp => {          
+        .subscribe(resp => {
           if (resp['ok'] && resp['imgs']) {
             for (const img of resp['imgs']) {
               imgs.push(`${URL}/posts/image/temp/${resp['usuario']}/${img}`);

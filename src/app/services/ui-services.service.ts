@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AlertController, ToastController, ActionSheetController } from '@ionic/angular';
+import { AlertController, ToastController, ActionSheetController, LoadingController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,10 @@ export class UiServicesService {
   constructor(
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public actionSheetController: ActionSheetController) { }
+    public actionSheetController: ActionSheetController,
+    public loadingController: LoadingController) { }
+
+  private loading: any;
 
   async presentAlert(message: string) {
     const alert = await this.alertCtrl.create({
@@ -18,6 +21,21 @@ export class UiServicesService {
     });
 
     await alert.present();
+  }
+
+  async presentLoading(message: string = 'Cargando...', duration: number = 0) {
+    this.loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: message,
+      duration: duration
+    });
+    await this.loading.present();
+  }
+
+  dismissedLoading() {
+    if (this.loading) {      
+      this.loading.dismiss();
+    }
   }
 
   async presentToast(message: string) {

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 import { NavController } from '@ionic/angular';
+import { UiServicesService } from './ui-services.service';
 
 const URL = environment.url;
 
@@ -14,7 +15,8 @@ export class CategoriesService {
   constructor(
     private http: HttpClient,
     private storage: Storage,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private uiServices: UiServicesService
   ) { }
 
   getCategories() {
@@ -24,7 +26,6 @@ export class CategoriesService {
   async setCategory(category: string) {
     this.category = category;
     await this.storage.set('category', category);
-    console.log('setCategory', category);
   }
 
   async loadCategory() {
@@ -37,23 +38,32 @@ export class CategoriesService {
   }
 
   async validateCategory(): Promise<boolean> {
+    this.uiServices.presentLoading();
     await this.loadCategory();
+
     if (!this.category) {
-      this.navCtrl.navigateRoot('/main/tabs/tab2/categories');
+      this.navCtrl.navigateRoot('/tabs/tab2/categories');
+      // this.navCtrl.navigateRoot('tabs/tab2/categories', { animated: true });
+      this.uiServices.dismissedLoading();
       return Promise.resolve(false);
     }
 
     return new Promise((resolve) => {
       if (this.category) {
         this.http.get<ResponsePost>(`${URL}/category?id=${this.category}`).subscribe(res => {
-          if (!res['ok']) {
+          if (res['ok']) {
+            this.uiServices.dismissedLoading();
             return resolve(true);
           }
           else {
+            this.uiServices.dismissedLoading();
             this.category = undefined;
             return resolve(false);
           }
         });
+      }
+      else {
+        return resolve(false);
       }
     })
   }
@@ -63,6 +73,7 @@ export class CategoriesService {
       if (!this.category) {
         this.loadCategory();
       }
+
       if (this.category) {
         this.http.get<ResponsePost>(`${URL}/category?id=${this.category}`).subscribe(res => {
           if (res['ok']) {
@@ -72,6 +83,10 @@ export class CategoriesService {
             resolve(undefined);
           }
         });
+      }
+      else {
+        resolve(undefined);
+
       }
     })
   }

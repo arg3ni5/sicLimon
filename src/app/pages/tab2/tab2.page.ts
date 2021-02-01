@@ -15,12 +15,13 @@ declare var window: any;
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-  category: any = {parent:{}};
+  category: any = { parent: {} };
   tempImages: string[] = [];
   loadingGeo: boolean = false;
 
   post = {
     mensaje: "",
+    direccion: "",
     coords: null,
     position: false,
     category: null
@@ -36,26 +37,40 @@ export class Tab2Page {
     private imagePicker: ImagePicker) { }
 
   async ngOnInit() {
-    this.category = await this.categoriesService.getCategory();
+    if (this.category['_id'] == undefined) {
+      this.category = await this.categoriesService.getCategory();
+    }
   }
 
   async ionViewWillEnter() {
-    this.category = await this.categoriesService.getCategory();
-    this.post['category'] = this.category['_id'];
-    this.postsService.getImgsTemp().then((imgs) => {
-      this.tempImages = imgs;
-    });
+
+    if (this.category['_id'] == undefined) {
+      this.category = await this.categoriesService.getCategory();
+
+      if (this.category == undefined || this.category['_id'] == undefined) {
+        this.navCtrl.navigateRoot('tabs/tab2/categories');
+        return;
+      }
+
+      this.post['category'] = this.category['_id'];
+
+      this.postsService.getImgsTemp().then((imgs) => {
+        this.tempImages = imgs;
+      });
+    }
   }
 
   async crearPost() {
     const created = await this.postsService.createPost(this.post);
     this.post = {
       mensaje: "",
+      direccion: "",
       coords: null,
       position: false,
       category: null
     };
-    this.tempImages = [];    
+    this.category = { parent: {} };
+    this.tempImages = [];
     this.categoriesService.clearCategory();
     this.navCtrl.navigateRoot('tabs/tab1');
   }

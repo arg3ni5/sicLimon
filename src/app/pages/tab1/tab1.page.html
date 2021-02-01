@@ -1,4 +1,3 @@
-
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -6,19 +5,20 @@
     </ion-buttons>
 
     <ion-title>
-
+      Reportes
     </ion-title>
-  </ion-toolbar>
-  
 
-  
+  </ion-toolbar>
+
+
+
 </ion-header>
 
-<ion-content [fullscreen]="true"> 
+<ion-content [fullscreen]="true">
 
-  <ion-button (click)="onClick()" expand="block" 
-  shape="round" *ngFor="let estado of estados">
-    {{estado.name}}
+  <ion-button (click)="setState(estado.id)" expand="full" size="small" *ngFor="let estado of estados"
+    color="{{filtro.estado==estado.id?'success':'light'}}">
+    {{estado.name}} <ion-badge color="primary">{{estado.count||0}}</ion-badge>
   </ion-button>
 
   <!-- refresher -->

@@ -24,12 +24,13 @@ export class CategoriesPage implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnInit() {    
+    this.UiServicesService.presentLoading(); 
     this.categoriesService.getCategories().subscribe(categories => {
       if (categories['ok']) {
         this.categories = categories['categoryList'];
-        console.log(this.categories);
       }
+      this.UiServicesService.dismissedLoading(); 
     });
   }
 
@@ -58,5 +59,9 @@ export class CategoriesPage implements OnInit {
       this.categoriesService.setCategory(category._id);
     }
     this.navCtrl.navigateRoot('tabs/tab2/report', { animated: true });
+  }
+  
+  clearCategory() {
+    this.categoriesService.clearCategory();
   }
 }

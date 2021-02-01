@@ -32,12 +32,11 @@
 
           <ion-row>
             <ion-col>
-              <ion-button type="submit" color="tertiary" shape="round">
+              <ion-button type="submit" color="tertiary" shape="round" [disabled]="fLogin.invalid">
                 Login
               </ion-button>
             </ion-col>
           </ion-row>
-
         </ion-grid>
       </form>
 
@@ -56,7 +55,7 @@
         </ion-row>
         <app-avatar-selector (avatarSelected)="registerUser.avatar=$event"></app-avatar-selector>
 
-        <form (ngSubmit)="singUp(fLogin)" #fSingUp="ngForm">
+        <form (ngSubmit)="singUp(fSingUp)" #fSingUp="ngForm">
           <ion-row>
             <ion-col>
 
@@ -83,7 +82,7 @@
 
           <ion-row>
             <ion-col>
-              <ion-button type="submit" color="tertiary" shape="round">
+              <ion-button type="submit" color="tertiary" shape="round" [disabled]="fSingUp.invalid">
                 Crear usuario
               </ion-button>
             </ion-col>

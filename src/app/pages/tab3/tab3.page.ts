@@ -19,6 +19,7 @@ export class Tab3Page {
   ) { }
 
   logout() {
+    this.uiServices.presentLoading('Cerrando Sesion', 1500);
     this.postsService.pagePosts = 0;
     this.usersService.logout();
   }

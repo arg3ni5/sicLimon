@@ -1,3 +1,4 @@
+import { Usuario } from './usuario.interface';
 interface ResponsePost {
     ok: boolean;
     page: number;
@@ -14,10 +15,4 @@ interface Post {
     created?: string;
 }
 
-interface Usuario {
-    _id?: string;
-    avatar?: string;
-    nombre?: string;
-    email?: string;
-    password?: string;
-}
+export { ResponsePost, Post }

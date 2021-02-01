@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { IonSlides, NavController } from '@ionic/angular';
 import { UsersService } from 'src/app/services/users.service';
 import { UiServicesService } from '../../services/ui-services.service';
+import { Usuario } from '../../interfaces/usuario.interface';
 
 @Component({
   selector: 'app-login',

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { environment } from '../../environments/environment';
 import { NavController } from '@ionic/angular';
+import { Usuario } from '../interfaces/usuario.interface';
 
 const URL = environment.url;
 
@@ -121,7 +122,6 @@ export class UsersService {
     this.token = null;
     this.usuario = null;
     this.storage.clear();
-
     this.navCtrl.navigateRoot('/login', { animated: true });
   }
 }

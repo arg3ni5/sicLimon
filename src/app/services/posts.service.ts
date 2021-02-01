@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { UsersService } from './users.service';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { File } from '@ionic-native/file';
+import { Post, ResponsePost } from '../interfaces/post.inteface';
 
 const URL = environment.url;
 

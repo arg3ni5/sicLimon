@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UiServicesService } from '../../services/ui-services.service';
 import { CategoriesService } from '../../services/categories.service';
 import { NavController } from '@ionic/angular';
+import { Category } from '../../interfaces/category.interface';
 
 @Component({
   selector: 'app-categories',
@@ -54,9 +55,10 @@ export class CategoriesPage implements OnInit {
     }
   }
 
-  setCategory(category: any) {
+  setCategory(category: Category) {
     if (category) {
-      this.categoriesService.setCategory(category._id);
+      delete category['childrens'];
+      this.categoriesService.setCategory(category);
     }
     this.navCtrl.navigateRoot('tabs/tab2/report', { animated: true });
   }

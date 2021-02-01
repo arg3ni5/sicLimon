@@ -4,6 +4,8 @@ import { Storage } from '@ionic/storage';
 import { environment } from '../../environments/environment';
 import { NavController } from '@ionic/angular';
 import { UiServicesService } from './ui-services.service';
+import { Category } from '../interfaces/category.interface';
+import { ResponsePost } from '../interfaces/post.inteface';
 
 const URL = environment.url;
 
@@ -11,7 +13,7 @@ const URL = environment.url;
   providedIn: 'root'
 })
 export class CategoriesService {
-  category: string;
+  category: Category;
   constructor(
     private http: HttpClient,
     private storage: Storage,
@@ -23,11 +25,14 @@ export class CategoriesService {
     return this.http.get<ResponsePost>(`${URL}/category`);
   }
 
-  async setCategory(category: string) {
+  async setCategory(category: Category) {
     this.category = category;
     await this.storage.set('category', category);
   }
-
+  async setCategoryId(id: string) {
+    this.category._id = id;
+    await this.storage.set('category', this.category);
+  }
   async loadCategory() {
     this.category = await this.storage.get('category') || null;
   }
@@ -38,21 +43,20 @@ export class CategoriesService {
   }
 
   async validateCategory(): Promise<boolean> {
-    this.uiServices.presentLoading();
     await this.loadCategory();
 
     if (!this.category) {
       this.navCtrl.navigateRoot('/tabs/tab2/categories');
-      // this.navCtrl.navigateRoot('tabs/tab2/categories', { animated: true });
-      this.uiServices.dismissedLoading();
       return Promise.resolve(false);
     }
 
     return new Promise((resolve) => {
       if (this.category) {
-        this.http.get<ResponsePost>(`${URL}/category?id=${this.category}`).subscribe(res => {
+        this.uiServices.presentLoading();
+        this.http.get<any>(`${URL}/category?id=${this.category._id}`).subscribe(res => {
           if (res['ok']) {
             this.uiServices.dismissedLoading();
+            this.setCategory(res['category']);
             return resolve(true);
           }
           else {
@@ -69,13 +73,16 @@ export class CategoriesService {
   }
 
   getCategory() {
+    if (this.category != undefined && this.category.parent) {
+      return Promise.resolve(this.category);
+    }
     return new Promise((resolve) => {
-      if (!this.category) {
+      if (this.category == undefined) {
         this.loadCategory();
       }
 
-      if (this.category) {
-        this.http.get<ResponsePost>(`${URL}/category?id=${this.category}`).subscribe(res => {
+      if (this.category && this.category._id) {
+        this.http.get<any>(`${URL}/category?id=${this.category._id}`).subscribe(res => {
           if (res['ok']) {
             resolve(res['category']);
           }

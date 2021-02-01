@@ -3,6 +3,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { NgForm } from '@angular/forms';
 import { UiServicesService } from '../../services/ui-services.service';
 import { PostsService } from 'src/app/services/posts.service';
+import { Usuario } from '../../interfaces/usuario.interface';
 
 @Component({
   selector: 'app-tab3',

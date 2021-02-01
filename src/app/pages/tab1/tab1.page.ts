@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Post } from 'src/app/interfaces/post.inteface';
 import { PostsService } from '../../services/posts.service';
 import { UiServicesService } from '../../services/ui-services.service';
 
@@ -14,8 +15,8 @@ export class Tab1Page {
   estados = [
     { id: 'PENDING_ST', name: 'En Proceso', icon: 'code-working-outline'},
     { id: 'ASSIGNED_ST', name: 'Asignado', icon: 'contract-outline'},
+    { id: 'CLOSE_ST', name: 'Cerrado', icon: 'close-outline'},
     { id: 'COMPLETE_ST', name: 'Resuelto', icon: 'checkmark-outline'},
-    { id: 'CLOSE_ST', name: 'Cerrado', icon: 'close-outline'}
   ];
 
   disabled: boolean = false;

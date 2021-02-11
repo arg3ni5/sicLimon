@@ -1,3 +1,4 @@
+import { Category } from './category.interface';
 import { Usuario } from './usuario.interface';
 interface ResponsePost {
     ok: boolean;
@@ -12,6 +13,7 @@ interface Post {
     direccion?: string;
     coords?: string;
     usuario?: Usuario;
+    category?: Category;
     created?: string;
 }
 

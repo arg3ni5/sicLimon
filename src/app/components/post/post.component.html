@@ -1,21 +1,18 @@
-<div class="post">
-  <ion-item lines="none">
+<ion-card>
+  <ion-card-header>
+    <ion-card-subtitle>{{post.category ? post.category.parent.name : ''}}</ion-card-subtitle>
+    <ion-card-title>{{post.category ? post.category.name : ''}}</ion-card-title>
+  </ion-card-header>
 
-    <ion-avatar slot="start">
-      <img src="/assets/avatars/{{post.usuario.avatar}}"/>
-    </ion-avatar>
+  <ion-card-content>
+    {{post.mensaje}}
+    <p>{{post.direccion}}</p>
+  </ion-card-content>
 
-    <ion-label>
-      <h3>{{post.usuario.nombre}}</h3>
-      <h5>{{post.usuario.email}}</h5>
-    </ion-label>
-
-  </ion-item>
-
-  
   <!-- imgs -->
   <ion-slides pager="true" *ngIf="post.imgs && post.imgs.length>1">
-    <ion-slide class="image-slide" [style]="(img|image:post.usuario._id) | domSanitizer" *ngFor="let img of post.imgs"></ion-slide>
+    <ion-slide class="image-slide" [style]="(img|image:post.usuario._id) | domSanitizer" *ngFor="let img of post.imgs">
+    </ion-slide>
   </ion-slides>
 
   <ion-slides *ngIf="post.imgs && post.imgs.length===1" [options]="slideSoloOpts">
@@ -25,12 +22,4 @@
   <!-- mapa -->
   <app-mapa [coords]="post.coords" *ngIf="post.coords"></app-mapa>
 
-  <ion-item lines="none">
-    <!-- <ion-icon slot="start" name="heart-outline"></ion-icon> -->
-    <ion-icon slot="end" name="bookmark"></ion-icon>
-  </ion-item>
-
-  <ion-item>
-    <ion-label text-wrap>{{post.mensaje}}</ion-label>
-  </ion-item>
-</div>
+</ion-card>

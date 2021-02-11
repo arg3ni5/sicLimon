@@ -43,7 +43,6 @@ export class Tab2Page {
   }
 
   async ionViewWillEnter() {
-
     if (this.category['_id'] == undefined) {
       this.category = await this.categoriesService.getCategory();
 
@@ -52,11 +51,14 @@ export class Tab2Page {
         return;
       }
 
-      this.post['category'] = this.category['_id'];
-
+      this.post['category'] = this.category;
+      
       this.postsService.getImgsTemp().then((imgs) => {
         this.tempImages = imgs;
       });
+    }
+    else{
+      this.post['category'] = this.category;
     }
   }
 
@@ -97,6 +99,10 @@ export class Tab2Page {
   }
 
   camara() {
+    if (this.tempImages.length == 3) {      
+      this.uiServices.presentToast('No se pueden agregar mas de 3 imagenes');
+      return;
+    }
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -110,6 +116,10 @@ export class Tab2Page {
   }
 
   libreria() {
+    if (this.tempImages.length == 3) {      
+      this.uiServices.presentToast('No se pueden agregar mas de 3 imagenes');
+      return;
+    }
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -131,8 +141,12 @@ export class Tab2Page {
   }
 
   picker() {
+    if (this.tempImages.length == 3) {      
+      this.uiServices.presentToast('No se pueden agregar mas de 3 imagenes');
+      return;
+    }
     const options = {
-      maximumImagesCount: 10,
+      maximumImagesCount: 3,
       width: 800
     }
     this.imagePicker.getPictures(options).then((results) => {
